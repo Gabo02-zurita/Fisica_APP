@@ -37,7 +37,7 @@ st.markdown(
 }}
 
 .stMarkdown h1, .stMarkdown h2, .stMarkdown h3, .stMarkdown h4, .stMarkdown h5, .stMarkdown h6 {{
-    color: red !important;
+    color: purple !important;
     text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
     font-size: 2.2em;
     font-weight: bold;
