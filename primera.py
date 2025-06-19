@@ -615,7 +615,7 @@ def plot_caida_plano_impacto_animacion(m_obj, altura_inicial, angulo_plano_deg, 
                      line=dict(color="light green", width=3)),
                 # Suelo estático de fondo (se extiende hasta el final de la trayectoria rebotada)
                 dict(type="line", x0=0, y0=0, x1=x_plano_end_static + distancia_horizontal_rebote + 1, y1=0,
-                     line=dict(color="black", width=3, dash='solid')) # Asegura que sea una línea sólida para el piso
+                     line=dict(color="red", width=3, dash='solid')) # Asegura que sea una línea sólida para el piso
             ],
             plot_bgcolor='rgba(240,240,240,1)',
             paper_bgcolor='rgba(255,255,255,1)',
