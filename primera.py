@@ -47,6 +47,7 @@ st.markdown(
     color: blue !important;
     font-size: 1.1em;
     font-weight: 500;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }}
 
 .stSlider label, .stNumberInput label, .stSelectbox label, .stRadio label {{
