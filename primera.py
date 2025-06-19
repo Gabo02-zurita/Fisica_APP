@@ -63,7 +63,7 @@ st.markdown(
 
 .st-be.st-bb, .st-bh {{
     font-size: 1.1em !important;
-    font-weight: 500 !important;
+    font-weight: 300 !important;
     color: orange !important;
 }}
 
