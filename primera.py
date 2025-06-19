@@ -8,7 +8,7 @@ from scipy.integrate import odeint # Para resolver ecuaciones diferenciales, út
 st.set_page_config(layout="wide", page_title="Simulaciones de Física: Impulso y Cantidad de Movimiento")
 
 # --- CSS Personalizado para la Interfaz Creativa (Va DESPUÉS de set_page_config) ---
-background_image_url = "https://picsum.photos/1920/1080?random=1" # ¡CAMBIA ESTA URL por una tuya si la prueba funciona!
+background_image_url = "https://i.postimg.cc/bdXCLRNG/unnamed.png" # ¡CAMBIA ESTA URL por una tuya si la prueba funciona!
 
 # Importante: Asegúrate de que no haya espacios o caracteres invisibles antes de '<style>'
 st.markdown(
