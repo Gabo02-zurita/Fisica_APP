@@ -45,15 +45,7 @@ st.markdown(
 
 st.markdown(
     f"""
-    <style>
-    /* Estilos para el fondo de la aplicación */
-    .stApp {{
-        background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("{background_image_url}");
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        background-attachment: fixed;
-    }}
+
 
     /* Estilos para el contenedor principal del contenido */
     .css-1d391kg {{ /* Selector para el contenedor principal de Streamlit */
