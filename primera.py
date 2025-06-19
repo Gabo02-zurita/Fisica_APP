@@ -37,14 +37,14 @@ st.markdown(
 }}
 
 .stMarkdown h1, .stMarkdown h2, .stMarkdown h3, .stMarkdown h4, .stMarkdown h5, .stMarkdown h6 {{
-    color: purple !important;
+    color: white !important;
     text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
     font-size: 2.2em;
     font-weight: bold;
 }}
 
 .stMarkdown p, .stMarkdown li, .stMarkdown span, .stMarkdown div {{
-    color: blue !important;
+    color: white !important;
     font-size: 1.1em;
     font-weight: 500;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
