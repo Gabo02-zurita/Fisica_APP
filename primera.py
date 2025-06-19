@@ -44,7 +44,7 @@ st.markdown(
 }}
 
 .stMarkdown p, .stMarkdown li, .stMarkdown span, .stMarkdown div {{
-    color: orange !important;
+    color: blue !important;
     font-size: 1.1em;
     font-weight: 500;
 }}
