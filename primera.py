@@ -428,7 +428,7 @@ def plot_pendulo_balistico_animacion(masa_bala, masa_caja, velocidad_bala_inicia
                 go.Scatter(x=[pos_bala_x[k]] if t_values[k] <= tiempo_pre_impacto + 0.01 else [pos_caja_x[k]], # Fusiona la bala con la caja visualmente
                            y=[pos_bala_y[k]] if t_values[k] <= tiempo_pre_impacto + 0.01 else [pos_caja_y[k]],
                            mode='markers',
-                           marker=dict(size=masa_bala*200 + 5, color='orange', symbol='bullet')
+                           marker=dict(size=masa_bala*200 + 5, color='orange', symbol='circle ')
                           ),
                 # Datos de la caja/sistema
                 go.Scatter(x=[pos_caja_x[k]], y=[pos_caja_y[k]], mode='markers',
