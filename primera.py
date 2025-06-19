@@ -1,106 +1,74 @@
-
 import streamlit as st
 import numpy as np
 import plotly.graph_objects as go
-from scipy.constants import g  # Gravedad terrestre
-from scipy.integrate import odeint  # Para resolver ecuaciones diferenciales, útil en animaciones complejas
+from scipy.constants import g # Gravedad terrestre
+from scipy.integrate import odeint # Para resolver ecuaciones diferenciales, útil en animaciones complejas
 
-# -------------------- Configuración de la Página --------------------
+# -------------------- Configuración de la Página (¡DEBE SER LA PRIMERA!) --------------------
 st.set_page_config(layout="wide", page_title="Simulaciones de Física: Impulso y Cantidad de Movimiento")
 
-# --- CSS Personalizado para la Interfaz Creativa ---
-# Puedes reemplazar 'URL_DE_TU_IMAGEN_DE_FONDO.jpg' con la URL de tu imagen.
-# Asegúrate de que la URL sea pública.
-background_image_url = "https://i.postimg.cc/N0Dh4Pvz/unnamed.png" # ¡CAMBIA ESTA URL!
+# --- CSS Personalizado para la Interfaz Creativa (Va DESPUÉS de set_page_config) ---
+background_image_url = "https://picsum.photos/1920/1080?random=1" # ¡CAMBIA ESTA URL por una tuya si la prueba funciona!
 
+# Importante: Asegúrate de que no haya espacios o caracteres invisibles antes de '<style>'
 st.markdown(
     f"""
-    <style>
-    .stApp {{
-        background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),  url("{background_image_url}");
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        background-attachment: fixed; /* Esto hace que la imagen de fondo no se desplace al hacer scroll */
-    }}
-    .css-1d391kg {{ /* Selector para el contenedor principal de Streamlit */
-        background-color: rgba(255, 255, 255, 0.7); /* Fondo blanco semi-transparente para el contenido */
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    }}
-    .stMarkdown h1, .stMarkdown h2, .stMarkdown h3, .stMarkdown h4, .stMarkdown h5, .stMarkdown h6 {{
-        color: #000000; /* Color de texto para los encabezados */
-        text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5); /* Sombra para mejor legibilidad */
-    }}
-    .stMarkdown p, .stMarkdown li, .stMarkdown span {{
-        color: #red; /* Color de texto para el párrafo y listas */
-    }}
-    .stSidebar {{
-        background-color: rgba(240, 240, 240, 0.8); /* Fondo semi-transparente para la barra lateral */
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    }}
+<style>
+.stApp {{
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("{background_image_url}");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}}
 
-st.markdown(
-    f"""
+.css-1d391kg {{
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}}
 
+.stSidebar {{
+    background-color: rgba(240, 240, 240, 0.9);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}}
 
-    /* Estilos para el contenedor principal del contenido */
-    .css-1d391kg {{ /* Selector para el contenedor principal de Streamlit */
-        background-color: rgba(255, 255, 255, 0.8); /* Fondo blanco semi-transparente para el contenido */
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    }}
+.stMarkdown h1, .stMarkdown h2, .stMarkdown h3, .stMarkdown h4, .stMarkdown h5, .stMarkdown h6 {{
+    color: red !important;
+    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
+    font-size: 2.2em;
+    font-weight: bold;
+}}
 
-    /* Estilos para la barra lateral */
-    .stSidebar {{
-        background-color: rgba(240, 240, 240, 0.9); /* Fondo semi-transparente para la barra lateral */
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    }}
+.stMarkdown p, .stMarkdown li, .stMarkdown span, .stMarkdown div {{
+    color: orange !important;
+    font-size: 1.1em;
+    font-weight: 500;
+}}
 
-    /* Estilos para los encabezados (H1 a H6) */
-    .stMarkdown h1, .stMarkdown h2, .stMarkdown h3, .stMarkdown h4, .stMarkdown h5, .stMarkdown h6 {{
-        color: red !important; /* ¡TITULOS EN ROJO - AHORA CON !important! */
-        text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
-        font-size: 2.2em;
-        font-weight: bold;
-    }}
+.stSlider label, .stNumberInput label, .stSelectbox label, .stRadio label {{
+    font-size: 1.15em;
+    font-weight: 600;
+    color: #222222 !important;
+}}
 
-    /* Estilos para el texto de párrafo, listas y span (texto general) */
-    .stMarkdown p, .stMarkdown li, .stMarkdown span, .stMarkdown div {{
-        color: orange !important; /* ¡PARRAFOS EN NARANJA - AHORA CON !important! */
-        font-size: 1.1em;
-        font-weight: 500;
-    }}
+.stButton > button {{
+    font-size: 1.1em;
+    font-weight: 600;
+    color: #333333 !important;
+}}
 
-    /* Estilos para los labels de los widgets (sliders, inputs) */
-    .stSlider label, .stNumberInput label, .stSelectbox label, .stRadio label {{
-        font-size: 1.15em;
-        font-weight: 600;
-        color: #222222 !important; /* Color oscuro para los labels con !important */
-    }}
+.st-be.st-bb, .st-bh {{
+    font-size: 1.1em !important;
+    font-weight: 500 !important;
+    color: orange !important;
+}}
 
-    /* Estilos para el texto dentro de los botones */
-    .stButton > button {{
-        font-size: 1.1em;
-        font-weight: 600;
-        color: #333333 !important; /* Color del texto del botón con !important */
-    }}
-
-    /* Asegurar que el texto dentro de los "streamlit.latex" también se vea afectado */
-    .st-be.st-bb, .st-bh {{ /* Selectores para el contenido de LaTeX */
-        font-size: 1.1em !important;
-        font-weight: 500 !important;
-        color: orange !important; /* LaTeX también en naranja con !important */
-    }}
-
-    </style>
-    """,
+</style>
+    """, # Asegúrate de que no haya caracteres extra aquí o después de la triple comilla de cierre
     unsafe_allow_html=True
 )
 
