@@ -43,16 +43,75 @@ st.markdown(
         box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
     }}
 
+st.markdown(
+    f"""
+    <style>
+    /* Estilos para el fondo de la aplicación */
+    .stApp {{
+        background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("{background_image_url}");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+    }}
+
+    /* Estilos para el contenedor principal del contenido */
+    .css-1d391kg {{ /* Selector para el contenedor principal de Streamlit */
+        background-color: rgba(255, 255, 255, 0.8); /* Fondo blanco semi-transparente para el contenido */
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    }}
+
+    /* Estilos para la barra lateral */
+    .stSidebar {{
+        background-color: rgba(240, 240, 240, 0.9); /* Fondo semi-transparente para la barra lateral */
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    }}
+
+    /* Estilos para los encabezados (H1 a H6) */
+    .stMarkdown h1, .stMarkdown h2, .stMarkdown h3, .stMarkdown h4, .stMarkdown h5, .stMarkdown h6 {{
+        color: red !important; /* ¡TITULOS EN ROJO - AHORA CON !important! */
+        text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
+        font-size: 2.2em;
+        font-weight: bold;
+    }}
+
+    /* Estilos para el texto de párrafo, listas y span (texto general) */
+    .stMarkdown p, .stMarkdown li, .stMarkdown span, .stMarkdown div {{
+        color: orange !important; /* ¡PARRAFOS EN NARANJA - AHORA CON !important! */
+        font-size: 1.1em;
+        font-weight: 500;
+    }}
+
+    /* Estilos para los labels de los widgets (sliders, inputs) */
+    .stSlider label, .stNumberInput label, .stSelectbox label, .stRadio label {{
+        font-size: 1.15em;
+        font-weight: 600;
+        color: #222222 !important; /* Color oscuro para los labels con !important */
+    }}
+
+    /* Estilos para el texto dentro de los botones */
+    .stButton > button {{
+        font-size: 1.1em;
+        font-weight: 600;
+        color: #333333 !important; /* Color del texto del botón con !important */
+    }}
+
+    /* Asegurar que el texto dentro de los "streamlit.latex" también se vea afectado */
+    .st-be.st-bb, .st-bh {{ /* Selectores para el contenido de LaTeX */
+        font-size: 1.1em !important;
+        font-weight: 500 !important;
+        color: orange !important; /* LaTeX también en naranja con !important */
+    }}
 
     </style>
     """,
     unsafe_allow_html=True
 )
 
-# -------------------- Funciones de Cálculo Físico --------------------
-# ... (el resto de tu código Python sigue aquí)
-
-# -------------------- Funciones de Cálculo Físico --------------------
 
 def calcular_impulso_fuerza(parametro_entrada, valor_entrada, tiempo=None):
     """Calcula impulso o fuerza promedio."""
