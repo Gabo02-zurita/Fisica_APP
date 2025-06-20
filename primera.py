@@ -125,8 +125,8 @@ div[data-testid="stMetric"] {{
 }}
 
 /* Para el valor numérico en st.metric (dentro del recuadro) */
-.st-bd {{
-    color: orange !important; /* El valor numérico principal en naranja */
+.st-bd 
+   color: white !important; /* El valor numérico principal en naranja */
 }}
 
 
