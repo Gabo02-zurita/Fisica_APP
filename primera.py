@@ -53,7 +53,7 @@ h1, h2, h3, h4, h5, h6,          /* General HTML headings */
 .stMarkdown p, .stMarkdown li, .stMarkdown span, .stMarkdown div {{
     color: white !important;
     font-size: 1.1em;
-    font-weight: 500;
+    font-weight: 300;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }}
 
