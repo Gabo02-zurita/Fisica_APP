@@ -55,7 +55,7 @@ h1, h2, h3, h4, h5, h6,
 .stMarkdown p, .stMarkdown li, .stMarkdown span, .stMarkdown div {{
     color: white !important;
     font-size: 1.1em;
-    font-weight: 500;
+    font-weight: 300;
 }}
 
 /* Para el valor numérico en st.metric */
