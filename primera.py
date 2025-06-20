@@ -114,6 +114,21 @@ h1, h2, h3, h4, h5, h6,          /* General HTML headings */
     color: #555555 !important;
     font-weight: 500;
 }}
+/* ESTILOS AÑADIDOS PARA EL FONDO DE RECUADROS DE RESULTADOS Y ALERTAS */
+
+/* Para el recuadro completo de st.metric */
+div[data-testid="stMetric"] {{
+    background-color: rgba(0, 0, 0, 0.2) !important; /* Fondo negro muy tenue */
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 10px;
+}}
+
+/* Para el valor numérico en st.metric (dentro del recuadro) */
+.st-bd {{
+    color: orange !important; /* El valor numérico principal en naranja */
+}}
+
 
 /* Para los labels de los widgets (sliders, inputs, selectbox, radio) */
 .stSlider label, .stNumberInput label, .stSelectbox label, .stRadio label {{
