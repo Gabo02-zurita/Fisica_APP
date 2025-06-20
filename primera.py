@@ -72,7 +72,7 @@ h1, h2, h3, h4, h5, h6,          /* General HTML headings */
 .st-be.st-bb, .st-bh {{
     font-size: 1.1em !important;
     font-weight: 300 !important;
-    color: orange !important;
+     color: white !important;
 }}
 }}
 
@@ -106,7 +106,7 @@ h1, h2, h3, h4, h5, h6,          /* General HTML headings */
 
 /* Para el valor numérico en st.metric */
 .st-bd {{
-    color: black !important;
+    color: white !important;
 }}
 
 /* Para el texto dentro de st.info, st.warning, st.error boxes */
