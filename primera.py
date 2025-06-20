@@ -111,7 +111,7 @@ h1, h2, h3, h4, h5, h6,          /* General HTML headings */
 
 /* Para el texto dentro de st.info, st.warning, st.error boxes */
 .st-dg {{
-    color: #555555 !important;
+    color: white !important;
     font-weight: 500;
 }}
 /* ESTILOS AÑADIDOS PARA EL FONDO DE RECUADROS DE RESULTADOS Y ALERTAS */
