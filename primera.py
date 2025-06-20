@@ -106,7 +106,7 @@ h1, h2, h3, h4, h5, h6,          /* General HTML headings */
 
 /* Para el valor numérico en st.metric */
 .st-bd {{
-    color: white !important;
+    color: black !important;
 }}
 
 /* Para el texto dentro de st.info, st.warning, st.error boxes */
