@@ -26,11 +26,11 @@ st.markdown(
     background-color: rgba(0, 0, 0, 0.8);
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0px 4px 8px rgba(255, 255, 255, 0.1);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }}
 
 .stSidebar {{
-    background-color: rgba(255, 255, 255, 0.9);
+    background-color: rgba(0, 0, 0, 0.9);
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
@@ -99,7 +99,7 @@ h1, h2, h3, h4, h5, h6,          /* General HTML headings */
 
 /* Estilos para el texto de párrafo, listas, span y divs generales - NARANJA */
 .stMarkdown p, .stMarkdown li, .stMarkdown span, .stMarkdown div {{
-    color: orange !important;
+    color: white !important;
     font-size: 1.1em;
     font-weight: 500;
 }}
@@ -132,14 +132,14 @@ div[data-testid="stSelectbox"] div[role="button"] span {{
 .stButton > button {{
     font-size: 1.1em;
     font-weight: 600;
-    color: #333333 !important;
+    color: #0 !important;
 }}
 
 /* Asegurar que el texto dentro de los "streamlit.latex" también se vea afectado */
 .st-be.st-bb, .st-bh {{
     font-size: 1.1em !important;
     font-weight: 500 !important;
-    color: orange !important;
+    color: white !important;
 }}
 
 
