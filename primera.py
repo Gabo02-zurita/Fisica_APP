@@ -53,7 +53,7 @@ h1, h2, h3, h4, h5, h6,
 
 /* Estilos para el texto de párrafo, listas, span y divs generales - NARANJA */
 .stMarkdown p, .stMarkdown li, .stMarkdown span, .stMarkdown div {{
-    color: orange !important;
+    color: white !important;
     font-size: 1.1em;
     font-weight: 500;
 }}
