@@ -44,7 +44,7 @@ h1, h2, h3, h4, h5, h6,          /* General HTML headings */
 {{
 
 .stMarkdown h1, .stMarkdown h2, .stMarkdown h3, .stMarkdown h4, .stMarkdown h5, .stMarkdown h6 {{
-    color: red !important;
+    color: black !important;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
     font-size: 2.2em;
     font-weight: bold;
