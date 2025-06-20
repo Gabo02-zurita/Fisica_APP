@@ -140,7 +140,7 @@ div[data-testid="stMetric"] {{
 /* Para el texto de las opciones de radio buttons y selectboxes */
 div[data-testid="stRadio"] label span,
 div[data-testid="stSelectbox"] div[role="button"] span 
-    color: white !important;  /* Esta línea es la que vas a CAMBIAR */
+    color: red !important;  /* Esta línea es la que vas a CAMBIAR */
     font-weight: 600 !important;
 }}
 
@@ -148,7 +148,7 @@ div[data-testid="stSelectbox"] div[role="button"] span
 .stButton > button {{
     font-size: 1.1em;
     font-weight: 600;
-    color: black !important;
+    color: red !important;
 }}
 
 /* Asegurar que el texto dentro de los "streamlit.latex" también se vea afectado */
