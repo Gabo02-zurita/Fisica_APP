@@ -60,7 +60,7 @@ h1, h2, h3, h4, h5, h6,
 
 /* Para el valor numérico en st.metric */
 .st-bd {{
-    color: orange !important;
+    color: white !important;
 }}
 
 /* Para el texto dentro de st.info, st.warning, st.error boxes */
