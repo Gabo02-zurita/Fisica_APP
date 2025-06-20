@@ -73,7 +73,7 @@ h1, h2, h3, h4, h5, h6,
 .stSlider label, .stNumberInput label, .stSelectbox label, .stRadio label {{
     font-size: 1.15em;
     font-weight: 600;
-    color: red !important; /* ¡CAMBIADO A ROJO! */
+    color: white !important; /* ¡CAMBIADO A ROJO! */
 }}
 
 /* Para el texto de las opciones de radio buttons y selectboxes */
