@@ -14,65 +14,21 @@ background_image_url = "https://i.postimg.cc/bdXCLRNG/unnamed.png" # ¡CAMBIA ES
 st.markdown(
     f"""
 <style>
+/* Estilos para el fondo de la aplicación */
 .stApp {{
-    background-image: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url("{background_image_url}");
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("{background_image_url}");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     background-attachment: fixed;
 }}
 
+/* Estilos para el contenedor principal del contenido */
 .css-1d391kg {{
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: rgba(255, 255, 255, 0.8);
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-}}
-
-.stSidebar {{
-    background-color: rgba(0, 0, 0, 0.9);
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-}}
-/* Estilos para los encabezados (H1 a H6) - ROJO */
-/* Este selector más amplio asegura que todos los títulos, incluyendo st.title y st.header/subheader, sean rojos */
-h1[data-testid="stAppViewTitle"], /* Título principal de la app (st.title) */
-h2[data-testid^="stHeader"],     /* st.header y st.subheader (con prefijo en data-testid) */
-h1, h2, h3, h4, h5, h6,          /* General HTML headings */
-.stMarkdown h1, .stMarkdown h2, .stMarkdown h3, .stMarkdown h4, .stMarkdown h5, .stMarkdown h6 /* Headings de st.markdown */
-{{
-
-.stMarkdown h1, .stMarkdown h2, .stMarkdown h3, .stMarkdown h4, .stMarkdown h5, .stMarkdown h6 {{
-    color: white !important;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-    font-size: 2.2em;
-    font-weight: bold;
-}}
-
-.stMarkdown p, .stMarkdown li, .stMarkdown span, .stMarkdown div {{
-    color: white !important;
-    font-size: 1.1em;
-    font-weight: 300;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-}}
-
-.stSlider label, .stNumberInput label, .stSelectbox label, .stRadio label {{
-    font-size: 1.15em;
-    font-weight: 600;
-    color: white !important;
-}}
-
-.stButton > button {{
-    font-size: 1.1em;
-    font-weight: 600;
-    color: white !important;
-}}
-
-.st-be.st-bb, .st-bh {{
-    font-size: 1.1em !important;
-    font-weight: 300 !important;
-     color: white !important;
 }}
 
 /* Estilos para la barra lateral */
@@ -84,83 +40,64 @@ h1, h2, h3, h4, h5, h6,          /* General HTML headings */
 }}
 
 /* Estilos para los encabezados (H1 a H6) - ROJO */
-/* Este selector más amplio asegura que todos los títulos, incluyendo st.title y st.header/subheader, sean rojos */
-h1[data-testid="stAppViewTitle"], /* Título principal de la app (st.title) */
-h2[data-testid^="stHeader"],     /* st.header y st.subheader (con prefijo en data-testid) */
-h1, h2, h3, h4, h5, h6,          /* General HTML headings */
-.stMarkdown h1, .stMarkdown h2, .stMarkdown h3, .stMarkdown h4, .stMarkdown h5, .stMarkdown h6 /* Headings de st.markdown */
+h1[data-testid="stAppViewTitle"],
+h2[data-testid^="stHeader"],
+h1, h2, h3, h4, h5, h6,
+.stMarkdown h1, .stMarkdown h2, .stMarkdown h3, .stMarkdown h4, .stMarkdown h5, .stMarkdown h6
 {{
     color: red !important;
     text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
-    font-size: 2.2em; /* Mantiene un tamaño consistente para todos los títulos principales */
+    font-size: 2.2em;
     font-weight: bold;
 }}
 
 /* Estilos para el texto de párrafo, listas, span y divs generales - NARANJA */
 .stMarkdown p, .stMarkdown li, .stMarkdown span, .stMarkdown div {{
-    color: white !important;
+    color: orange !important;
     font-size: 1.1em;
-    font-weight: 300;
+    font-weight: 500;
 }}
 
 /* Para el valor numérico en st.metric */
-.st-bd 
-    color: white !important;
+.st-bd {{
+    color: orange !important;
 }}
 
 /* Para el texto dentro de st.info, st.warning, st.error boxes */
 .st-dg {{
-    color: white !important;
+    color: #555555 !important;
     font-weight: 500;
 }}
-/* ESTILOS AÑADIDOS PARA EL FONDO DE RECUADROS DE RESULTADOS Y ALERTAS */
 
-/* Para el recuadro completo de st.metric */
-div[data-testid="stMetric"] 
-    background-color: rgba(0, 0, 0, 0.2) !important; /* Fondo negro muy tenue */
-    border-radius: 8px;
-    padding: 10px;
-    margin-bottom: 10px;
-}}
-
-/* Para el valor numérico en st.metric (dentro del recuadro) */
-.st-bd 
-   color: white !important; /* El valor numérico principal en naranja */
-}}
-
-}}
-/* Para los labels de los widgets (sliders, inputs, selectbox, radio) */
+/* Para los labels de los widgets (sliders, inputs, selectbox, radio) - AHORA TAMBIÉN EN ROJO */
 .stSlider label, .stNumberInput label, .stSelectbox label, .stRadio label {{
     font-size: 1.15em;
     font-weight: 600;
-    color: white !important;
+    color: red !important; /* ¡CAMBIADO A ROJO! */
 }}
 
 /* Para el texto de las opciones de radio buttons y selectboxes */
 div[data-testid="stRadio"] label span,
-div[data-testid="stSelectbox"] div[role="button"] span 
-    color: red !important;  /* Esta línea es la que vas a CAMBIAR */
-    font-weight: 600 !important;
+div[data-testid="stSelectbox"] div[role="button"] span {{
+    color: orange !important; /* Las opciones mismas, siguen en naranja */
 }}
 
 /* Estilos para el texto dentro de los botones */
 .stButton > button {{
     font-size: 1.1em;
     font-weight: 600;
-    color: red !important;
+    color: #333333 !important;
 }}
 
 /* Asegurar que el texto dentro de los "streamlit.latex" también se vea afectado */
-.st-be.st-bb, .st-bh 
+.st-be.st-bb, .st-bh {{
     font-size: 1.1em !important;
     font-weight: 500 !important;
-    color: white !important;
-    
+    color: orange !important;
 }}
 
-
 </style>
-    """, # Asegúrate de que no haya caracteres extra aquí o después de la triple comilla de cierre
+    """,
     unsafe_allow_html=True
 )
 
