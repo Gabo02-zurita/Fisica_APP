@@ -799,8 +799,8 @@ elif simulation_type == "Simulación de Colisión 1D":
         v1_final, v2_final = simular_colision_1d(m1, v1_inicial, m2, v2_inicial, e)
 
         st.subheader("Resultados de la Colisión")
-        st.red(f"**Velocidad final del Objeto 1:** `{v1_final:.2f} m/s`")
-        st.red(f"**Velocidad final del Objeto 2:** `{v2_final:.2f} m/s`")
+        st.whith(f"**Velocidad final del Objeto 1:** `{v1_final:.2f} m/s`")
+        st.whith(f"**Velocidad final del Objeto 2:** `{v2_final:.2f} m/s`")
 
         # Cálculo y comparación de momento y energía
         momento_inicial_total = m1 * v1_inicial + m2 * v2_inicial
