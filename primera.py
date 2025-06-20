@@ -15,7 +15,7 @@ st.markdown(
     f"""
 <style>
 .stApp {{
-    background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url("{background_image_url}");
+    background-image: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url("{background_image_url}");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
