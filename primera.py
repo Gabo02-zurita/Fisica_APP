@@ -117,7 +117,7 @@ h1, h2, h3, h4, h5, h6,          /* General HTML headings */
 /* ESTILOS AÑADIDOS PARA EL FONDO DE RECUADROS DE RESULTADOS Y ALERTAS */
 
 /* Para el recuadro completo de st.metric */
-div[data-testid="stMetric"] {{
+div[data-testid="stMetric"] 
     background-color: rgba(0, 0, 0, 0.2) !important; /* Fondo negro muy tenue */
     border-radius: 8px;
     padding: 10px;
@@ -125,7 +125,7 @@ div[data-testid="stMetric"] {{
 }}
 
 /* Para el valor numérico en st.metric (dentro del recuadro) */
-.st-bd 
+.st-bd }}
    color: white !important; /* El valor numérico principal en naranja */
 }}
 
