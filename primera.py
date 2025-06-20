@@ -106,7 +106,7 @@ h1, h2, h3, h4, h5, h6,          /* General HTML headings */
 
 /* Para el valor numérico en st.metric */
 .st-bd {{
-    color: orange !important;
+    color: white !important;
 }}
 
 /* Para el texto dentro de st.info, st.warning, st.error boxes */
@@ -125,7 +125,7 @@ h1, h2, h3, h4, h5, h6,          /* General HTML headings */
 /* Para el texto de las opciones de radio buttons y selectboxes */
 div[data-testid="stRadio"] label span,
 div[data-testid="stSelectbox"] div[role="button"] span {{
-    color: orange !important;
+    color: white !important;
 }}
 
 /* Estilos para el texto dentro de los botones */
