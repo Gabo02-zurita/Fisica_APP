@@ -147,7 +147,7 @@ div[data-testid="stSelectbox"] div[role="button"] span {{
 .stButton > button {{
     font-size: 1.1em;
     font-weight: 600;
-    color: #0 !important;
+    color: white !important;
 }}
 
 /* Asegurar que el texto dentro de los "streamlit.latex" también se vea afectado */
