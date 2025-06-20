@@ -66,7 +66,7 @@ h1, h2, h3, h4, h5, h6,          /* General HTML headings */
 .stButton > button {{
     font-size: 1.1em;
     font-weight: 600;
-    color: #0 !important;
+    color: white !important;
 }}
 
 .st-be.st-bb, .st-bh {{
