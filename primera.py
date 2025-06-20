@@ -142,9 +142,7 @@ div[data-testid="stSelectbox"] div[role="button"] span {{
     color: orange !important;
 }}
 
-</style>
-    """,
-    unsafe_allow_html=True
+
 </style>
     """, # Asegúrate de que no haya caracteres extra aquí o después de la triple comilla de cierre
     unsafe_allow_html=True
