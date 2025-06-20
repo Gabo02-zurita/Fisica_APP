@@ -125,11 +125,11 @@ div[data-testid="stMetric"]
 }}
 
 /* Para el valor numérico en st.metric (dentro del recuadro) */
-.st-bd }}
+.st-bd 
    color: white !important; /* El valor numérico principal en naranja */
 }}
 
-
+}}
 /* Para los labels de los widgets (sliders, inputs, selectbox, radio) */
 .stSlider label, .stNumberInput label, .stSelectbox label, .stRadio label {{
     font-size: 1.15em;
