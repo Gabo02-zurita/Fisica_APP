@@ -25,7 +25,7 @@ st.markdown(
 
 /* Estilos para el contenedor principal del contenido */
 .css-1d391kg {{
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: rgba(0, 0, 0, 0.8);
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
