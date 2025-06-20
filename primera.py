@@ -60,7 +60,7 @@ h1, h2, h3, h4, h5, h6,          /* General HTML headings */
 .stSlider label, .stNumberInput label, .stSelectbox label, .stRadio label {{
     font-size: 1.15em;
     font-weight: 600;
-    color: green !important;
+    color: yelow !important;
 }}
 
 .stButton > button {{
