@@ -35,6 +35,13 @@ st.markdown(
     border-radius: 10px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }}
+/* Estilos para los encabezados (H1 a H6) - ROJO */
+/* Este selector más amplio asegura que todos los títulos, incluyendo st.title y st.header/subheader, sean rojos */
+h1[data-testid="stAppViewTitle"], /* Título principal de la app (st.title) */
+h2[data-testid^="stHeader"],     /* st.header y st.subheader (con prefijo en data-testid) */
+h1, h2, h3, h4, h5, h6,          /* General HTML headings */
+.stMarkdown h1, .stMarkdown h2, .stMarkdown h3, .stMarkdown h4, .stMarkdown h5, .stMarkdown h6 /* Headings de st.markdown */
+{{
 
 .stMarkdown h1, .stMarkdown h2, .stMarkdown h3, .stMarkdown h4, .stMarkdown h5, .stMarkdown h6 {{
     color: red !important;
@@ -67,7 +74,77 @@ st.markdown(
     font-weight: 300 !important;
     color: orange !important;
 }}
+}}
 
+/* Estilos para la barra lateral */
+.stSidebar {{
+    background-color: rgba(240, 240, 240, 0.9);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}}
+
+/* Estilos para los encabezados (H1 a H6) - ROJO */
+/* Este selector más amplio asegura que todos los títulos, incluyendo st.title y st.header/subheader, sean rojos */
+h1[data-testid="stAppViewTitle"], /* Título principal de la app (st.title) */
+h2[data-testid^="stHeader"],     /* st.header y st.subheader (con prefijo en data-testid) */
+h1, h2, h3, h4, h5, h6,          /* General HTML headings */
+.stMarkdown h1, .stMarkdown h2, .stMarkdown h3, .stMarkdown h4, .stMarkdown h5, .stMarkdown h6 /* Headings de st.markdown */
+{{
+    color: red !important;
+    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
+    font-size: 2.2em; /* Mantiene un tamaño consistente para todos los títulos principales */
+    font-weight: bold;
+}}
+
+/* Estilos para el texto de párrafo, listas, span y divs generales - NARANJA */
+.stMarkdown p, .stMarkdown li, .stMarkdown span, .stMarkdown div {{
+    color: orange !important;
+    font-size: 1.1em;
+    font-weight: 500;
+}}
+
+/* Para el valor numérico en st.metric */
+.st-bd {{
+    color: orange !important;
+}}
+
+/* Para el texto dentro de st.info, st.warning, st.error boxes */
+.st-dg {{
+    color: #555555 !important;
+    font-weight: 500;
+}}
+
+/* Para los labels de los widgets (sliders, inputs, selectbox, radio) */
+.stSlider label, .stNumberInput label, .stSelectbox label, .stRadio label {{
+    font-size: 1.15em;
+    font-weight: 600;
+    color: #222222 !important;
+}}
+
+/* Para el texto de las opciones de radio buttons y selectboxes */
+div[data-testid="stRadio"] label span,
+div[data-testid="stSelectbox"] div[role="button"] span {{
+    color: orange !important;
+}}
+
+/* Estilos para el texto dentro de los botones */
+.stButton > button {{
+    font-size: 1.1em;
+    font-weight: 600;
+    color: #333333 !important;
+}}
+
+/* Asegurar que el texto dentro de los "streamlit.latex" también se vea afectado */
+.st-be.st-bb, .st-bh {{
+    font-size: 1.1em !important;
+    font-weight: 500 !important;
+    color: orange !important;
+}}
+
+</style>
+    """,
+    unsafe_allow_html=True
 </style>
     """, # Asegúrate de que no haya caracteres extra aquí o después de la triple comilla de cierre
     unsafe_allow_html=True
