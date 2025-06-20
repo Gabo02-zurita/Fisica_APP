@@ -74,7 +74,6 @@ h1, h2, h3, h4, h5, h6,          /* General HTML headings */
     font-weight: 300 !important;
      color: white !important;
 }}
-}}
 
 /* Estilos para la barra lateral */
 .stSidebar {{
@@ -105,7 +104,7 @@ h1, h2, h3, h4, h5, h6,          /* General HTML headings */
 }}
 
 /* Para el valor numérico en st.metric */
-.st-bd {{
+.st-bd 
     color: white !important;
 }}
 
@@ -152,10 +151,11 @@ div[data-testid="stSelectbox"] div[role="button"] span
 }}
 
 /* Asegurar que el texto dentro de los "streamlit.latex" también se vea afectado */
-.st-be.st-bb, .st-bh {{
+.st-be.st-bb, .st-bh 
     font-size: 1.1em !important;
     font-weight: 500 !important;
     color: white !important;
+    
 }}
 
 
