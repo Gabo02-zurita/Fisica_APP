@@ -101,7 +101,7 @@ h1, h2, h3, h4, h5, h6,          /* General HTML headings */
 .stMarkdown p, .stMarkdown li, .stMarkdown span, .stMarkdown div {{
     color: white !important;
     font-size: 1.1em;
-    font-weight: 500;
+    font-weight: 300;
 }}
 
 /* Para el valor numérico en st.metric */
@@ -773,6 +773,7 @@ def interaccion_flecha_saco_impacto():
 st.sidebar.title("Menú de Simulaciones")
 simulation_type = st.sidebar.radio(
     "Selecciona una opción:",
+    
     ("Fundamentos Teóricos",
      "Simulación de Colisión 1D",
      "Simulación de Colisión 2D",
