@@ -59,7 +59,7 @@ st.markdown(
 .stButton > button {{
     font-size: 1.1em;
     font-weight: 600;
-    color: #333333 !important;
+    color: #0 !important;
 }}
 
 .st-be.st-bb, .st-bh {{
