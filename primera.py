@@ -30,7 +30,7 @@ st.markdown(
 }}
 
 .stSidebar {{
-    background-color: rgba(240, 240, 240, 0.9);
+    background-color: rgba(0, 0, 0, 0.9);
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
@@ -38,7 +38,7 @@ st.markdown(
 
 .stMarkdown h1, .stMarkdown h2, .stMarkdown h3, .stMarkdown h4, .stMarkdown h5, .stMarkdown h6 {{
     color: red !important;
-    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
     font-size: 2.2em;
     font-weight: bold;
 }}
@@ -53,7 +53,7 @@ st.markdown(
 .stSlider label, .stNumberInput label, .stSelectbox label, .stRadio label {{
     font-size: 1.15em;
     font-weight: 600;
-    color: #222222 !important;
+    color: #0 !important;
 }}
 
 .stButton > button {{
