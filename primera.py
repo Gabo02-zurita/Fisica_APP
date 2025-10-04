@@ -666,7 +666,7 @@ simulation_type = st.sidebar.radio(
      "Cálculo de Impulso y Fuerza Promedio",
      "Péndulo Balístico",
      "Flecha que se Incrusta en un Saco",
-     "Caída por Plano Inclinado + Impacto",
+     "Caída por Plano Inclinado + Impacto",)
     
 
 st.sidebar.markdown("---")
