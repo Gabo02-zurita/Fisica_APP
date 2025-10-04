@@ -666,8 +666,6 @@ simulation_type = st.sidebar.radio
      "Péndulo Balístico",
      "Flecha que se Incrusta en un Saco",
      "Caída por Plano Inclinado + Impacto")
-    
-
 st.sidebar.markdown("---")
 st.sidebar.info("¡Experimenta con los parámetros para comprender mejor los conceptos físicos!")
 
