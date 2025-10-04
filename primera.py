@@ -24,7 +24,7 @@ st.markdown(
 }}
 
 /* Estilos para el contenedor principal del contenido */
-.css-1d391kg {{
+.stSidebar {{
     background-color: rgba(0, 0, 0, 0.8);
     padding: 20px;
     border-radius: 10px;
