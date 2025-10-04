@@ -659,7 +659,6 @@ def plot_caida_plano_impacto_animacion(m_obj, altura_inicial, angulo_plano_deg, 
 st.sidebar.title("Menú de Simulaciones")
 simulation_type = st.sidebar.radio(
     "Selecciona una opción:",)
-    
     ("Fundamentos Teóricos",
      "Simulación de Colisión 1D",
      "Simulación de Colisión 2D",
