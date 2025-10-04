@@ -1068,64 +1068,7 @@ elif simulation_type == "Flecha que se Incrusta en un Saco":
                 Esta fuerza causa una aceleración negativa ($a = -F_{friccion} / m_{total}$). Usando las ecuaciones de cinemática ($v_f^2 = v_i^2 + 2ad$), podemos encontrar la distancia ($d$) que se desplaza hasta que $v_f = 0$.
         """)
 
-elif simulation_type == "Caída por Plano Inclinado + Impacto":
-    st.header("⛰️ Simulación de Caída por Plano Inclinado + Impacto")
-    st.markdown("""
-        Esta simulación analiza un objeto que se desliza por un plano inclinado y luego
-        **impacta el suelo**, rebotando. Puedes ajustar las propiedades del plano
-        y el **coeficiente de restitución** del impacto para ver cómo afectan la trayectoria.
-    """)
 
-    col1, col2 = st.columns(2)
-    with col1:
-        st.subheader("Objeto")
-        m_obj = st.slider("Masa del Objeto (kg)", 0.1, 5.0, 1.0, 0.1, key='m_obj_plano')
-        altura_inicial = st.slider("Altura inicial del objeto (m)", 0.5, 10.0, 5.0, 0.1, key='h_plano')
-        angulo_plano_deg = st.slider("Ángulo del Plano Inclinado (grados)", 10, 80, 45, key='angulo_plano')
-    with col2:
-        st.subheader("Condiciones")
-        mu_k_plano = st.slider("Coeficiente de Fricción Cinética en el Plano", 0.0, 0.5, 0.1, 0.01, key='mu_k_plano')
-        e_impacto = st.slider("Coeficiente de Restitución (Impacto con el Suelo)", 0.0, 1.0, 0.7, 0.01, key='e_impacto_plano')
-
-    st.markdown(f"**Gravedad ($g$):** `{g:.2f} m/s²`")
-
-    if st.button("Simular Caída e Impacto", key='btn_plano'):
-        a_plano, v_final_plano, vx_impacto, vy_impacto, \
-        vy_rebote, altura_max_rebote, distancia_horizontal_rebote = simular_caida_plano_impacto(
-            m_obj, altura_inicial, angulo_plano_deg, mu_k_plano, e_impacto
-        )
-
-        st.subheader("Resultados de la Simulación")
-        if a_plano <= 0:
-            st.error("El objeto no se deslizará por el plano debido a la alta fricción. Reduzca el coeficiente de fricción o aumente el ángulo.")
-        else:
-            st.write(f"**Aceleración a lo largo del plano:** `{a_plano:.2f} m/s²`")
-            st.write(f"**Velocidad del objeto al final del plano (antes del impacto):** `{v_final_plano:.2f} m/s`")
-            st.write(f"**Componentes de velocidad justo antes del impacto:** `vx={vx_impacto:.2f} m/s, vy={vy_impacto:.2f} m/s`")
-            st.write(f"**Velocidad vertical de rebote:** `{vy_rebote:.2f} m/s`")
-            st.write(f"**Altura máxima alcanzada después del rebote:** `{altura_max_rebote:.2f} m`")
-            st.write(f"**Distancia horizontal recorrida durante el rebote:** `{distancia_horizontal_rebote:.2f} m`")
-
-            st.subheader("Animación del Fenómeno")
-            st.plotly_chart(plot_caida_plano_impacto_animacion(m_obj, altura_inicial, angulo_plano_deg, mu_k_plano, e_impacto), use_container_width=True)
-            st.caption("Pulsa 'Play' para ver el objeto caer y rebotar. La línea punteada muestra la trayectoria completa.")
-
-            st.subheader("Explicación Física")
-            st.markdown("""
-                1.  **Movimiento en el Plano Inclinado:** El objeto acelera hacia abajo por el plano debido a la componente de la gravedad paralela al plano, oponiéndose a la fuerza de fricción.
-                    * Fuerza neta a lo largo del plano: $F_{neta} = m g \\sin(\\theta) - \\mu_k m g \\cos(\\theta)$
-                    * Aceleración: $a = g (\\sin(\\theta) - \\mu_k \\cos(\\theta))$
-                    Luego, usamos $v^2 = u^2 + 2as$ para encontrar la velocidad al final del plano.
-
-                2.  **Impacto con el Suelo:** La colisión con el suelo afecta principalmente la componente vertical de la velocidad. El coeficiente de restitución ($e$) determina qué tan "elástico" es el rebote:
-                    $$ v_{y,rebote} = -e \\cdot v_{y,impacto} $$
-                    La componente horizontal de la velocidad generalmente se conserva en un impacto con una superficie horizontal (asumiendo fricción insignificante durante el impacto).
-
-                3.  **Movimiento Parabólico Post-Impacto:** Después del rebote, el objeto sigue una trayectoria parabólica, alcanzando una altura máxima antes de volver a caer. Se analiza como un problema de tiro parabólico.
-            """)
-
-elif simulation_type == "Interacción de Simulaciones: Flecha-Saco y Caída":
-    interaccion_flecha_saco_impacto()
 
 st.markdown("---")
 st.markdown("Desarrollado por Grupo E  para  Física 2.")
