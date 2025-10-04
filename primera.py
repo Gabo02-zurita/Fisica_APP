@@ -1128,4 +1128,4 @@ elif simulation_type == "Interacción de Simulaciones: Flecha-Saco y Caída":
     interaccion_flecha_saco_impacto()
 
 st.markdown("---")
-st.markdown("Desarrollado por Gabrien Zurita  para el proyecto de Física.")
+st.markdown("Desarrollado por Grupo E  para  Física 2.")
