@@ -653,58 +653,6 @@ def plot_caida_plano_impacto_animacion(m_obj, altura_inicial, angulo_plano_deg, 
     )
     return fig
 
-# -------------------- Interacción entre Simulaciones (Ejemplo Conceptual) --------------------
-def interaccion_flecha_saco_impacto():
-    st.sidebar.subheader("Interacción: Flecha en Saco + Caída")
-    st.sidebar.write("Simula la flecha incrustándose en un saco, y luego el saco cae por un plano inclinado.")
-
-    st.sidebar.markdown("---")
-    st.sidebar.markdown("### Parámetros de la Flecha y Saco")
-    m_flecha_int = st.sidebar.slider("Masa de la flecha (kg)", 0.01, 0.5, 0.1, key='m_flecha_int')
-    v_flecha_inicial_int = st.sidebar.slider("Velocidad inicial de la flecha (m/s)", 20.0, 100.0, 50.0, key='v_flecha_int')
-    m_saco_int = st.sidebar.slider("Masa del saco (kg)", 1.0, 20.0, 5.0, key='m_saco_int')
-    mu_k_int = st.sidebar.slider("Coeficiente de fricción en el suelo (saco)", 0.0, 1.0, 0.3, key='mu_k_int')
-
-    st.sidebar.markdown("---")
-    st.sidebar.markdown("### Parámetros del Plano Inclinado")
-    angulo_plano_deg_int = st.sidebar.slider("Ángulo del plano inclinado (grados)", 5, 80, 30, key='angulo_int')
-    altura_inicial_int = st.sidebar.slider("Altura inicial del plano (m)", 0.1, 5.0, 2.0, key='altura_int')
-    e_impacto_int = st.sidebar.slider("Coeficiente de restitución (impacto con suelo)", 0.0, 1.0, 0.7, key='e_int')
-    mu_k_plano_int = st.sidebar.slider("Coeficiente de fricción en el plano", 0.0, 1.0, 0.2, key='mu_k_plano_int')
-
-    if st.sidebar.button("Simular Interacción"):
-        st.subheader("Simulación Integrada: Flecha en Saco y Caída por Plano Inclinado")
-
-        # Fase 1: Flecha en Saco
-        st.markdown("#### Fase 1: Flecha se incrusta en el Saco")
-        v_sistema_inicial, F_friccion, distancia_detencion = simular_flecha_saco(
-            m_flecha_int, v_flecha_inicial_int, m_saco_int, mu_k_int
-        )
-        st.write(f"Velocidad inicial del sistema flecha+saco: **{v_sistema_inicial:.2f} m/s**")
-        st.write(f"Distancia que el saco se desplaza hasta detenerse: **{distancia_detencion:.2f} m**")
-
-        st.plotly_chart(plot_flecha_saco_animacion(m_flecha_int, v_flecha_inicial_int, m_saco_int, mu_k_int), use_container_width=True)
-
-        st.markdown("---")
-        st.markdown("#### Fase 2: El Saco (ahora con la flecha) cae por un Plano Inclinado y Rebota")
-        st.info("Para esta simulación integrada, la velocidad del saco se *reseteará* al inicio del plano.")
-        st.info("El saco ahora se considera como una única masa: "
-                f"**{(m_flecha_int + m_saco_int):.2f} kg**.")
-
-        masa_saco_con_flecha = m_flecha_int + m_saco_int
-
-        a_plano, v_final_plano, vx_impacto, vy_impacto, \
-        vy_rebote, altura_max_rebote, distancia_horizontal_rebote = simular_caida_plano_impacto(
-            masa_saco_con_flecha, altura_inicial_int, angulo_plano_deg_int, mu_k_plano_int, e_impacto_int
-        )
-
-        st.write(f"Aceleración en el plano: **{a_plano:.2f} m/s²**")
-        st.write(f"Velocidad al final del plano: **{v_final_plano:.2f} m/s**")
-        st.write(f"Altura máxima después del rebote: **{altura_max_rebote:.2f} m**")
-        st.write(f"Distancia horizontal del rebote: **{distancia_horizontal_rebote:.2f} m**")
-
-        st.plotly_chart(plot_caida_plano_impacto_animacion(m_obj=masa_saco_con_flecha, altura_inicial=altura_inicial_int, angulo_plano_deg=angulo_plano_deg_int, mu_k_plano=mu_k_plano_int, e_impacto=e_impacto_int), use_container_width=True)
-        st.markdown("---")
 
 # -------------------- Aplicación Principal Streamlit --------------------
 
@@ -719,8 +667,7 @@ simulation_type = st.sidebar.radio(
      "Péndulo Balístico",
      "Flecha que se Incrusta en un Saco",
      "Caída por Plano Inclinado + Impacto",
-     "Interacción de Simulaciones: Flecha-Saco y Caída")
-)
+    
 
 st.sidebar.markdown("---")
 st.sidebar.info("¡Experimenta con los parámetros para comprender mejor los conceptos físicos!")
