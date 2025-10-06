@@ -736,7 +736,7 @@ if simulation_type == "Fundamentos Teóricos":
         Veremos cómo estos principios se aplican en simulaciones de colisiones, péndulos balísticos, y más.
     """)
 
-.elif simulation_type == "Cálculo de Impulso y Fuerza Promedio":
+elif simulation_type == "Cálculo de Impulso y Fuerza Promedio":
     st.header("⚡ Cálculo de Impulso ($\mathbf{J}$) y Fuerza Promedio ($\mathbf{F}_{promedio}$)")
     
     col1, col2 = st.columns(2)
