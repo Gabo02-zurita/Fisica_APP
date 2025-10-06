@@ -941,8 +941,6 @@ elif simulation_type == "Péndulo Balístico":
     st.plotly_chart(fig_pendulo, use_container_width=True)
 
 ### 5. Flecha que se Incrusta en un Saco (Movimiento con Fricción)
-
-```python
 elif simulation_type == "Flecha que se Incrusta en un Saco":
     st.header("🏹 Flecha y Saco: Colisión Inelástica y Disipación por Fricción")
 
