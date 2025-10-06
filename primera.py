@@ -833,8 +833,6 @@ elif simulation_type == "Simulación de Colisión 1D":
     st.plotly_chart(fig_1d, use_container_width=True)
 
 ### 3. Simulación de Colisión 2D (Bidimensional)
-
-```python
 elif simulation_type == "Simulación de Colisión 2D":
     st.header("🌐 Colisión Bidimensional: Vectores de Momento")
 
