@@ -784,7 +784,6 @@ elif simulation_type == "Cálculo de Impulso y Fuerza Promedio":
     st.markdown("El **Teorema de Impulso-Momento** establece que $J = F \\cdot \\Delta t = \\Delta P$. Una pequeña variación de tiempo ($\Delta t$) con un gran Impulso ($J$) implica una **Fuerza Promedio** muy grande. Es por eso que los airbags y las colchonetas son esenciales para alargar $\Delta t$ y reducir $F_{promedio}$.")
 
 ### 2. Simulación de Colisión 1D (Unidimensional)
-
 ```python
 elif simulation_type == "Simulación de Colisión 1D":
     st.header("💥 Colisión Unidimensional: Conservación del Momento")
