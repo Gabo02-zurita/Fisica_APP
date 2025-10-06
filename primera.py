@@ -894,8 +894,6 @@ elif simulation_type == "Simulación de Colisión 2D":
     st.plotly_chart(fig_2d, use_container_width=True)
 
 ### 4. Péndulo Balístico
-
-```python
 elif simulation_type == "Péndulo Balístico":
     st.header("🎯 Péndulo Balístico: Colisión Inelástica y Conservación de Energía")
     
@@ -988,8 +986,6 @@ elif simulation_type == "Flecha que se Incrusta en un Saco":
     st.plotly_chart(fig_flecha_saco, use_container_width=True)
 
 ### 6. Caída por Plano Inclinado + Impacto
-
-```python
 elif simulation_type == "Caída por Plano Inclinado + Impacto":
     st.header("🎢 Caída con Impacto: Conservación de Momento y Coeficiente de Restitución")
 
