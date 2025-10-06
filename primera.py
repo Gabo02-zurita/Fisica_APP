@@ -736,338 +736,312 @@ if simulation_type == "Fundamentos Teóricos":
         Veremos cómo estos principios se aplican en simulaciones de colisiones, péndulos balísticos, y más.
     """)
 
+.elif simulation_type == "Cálculo de Impulso y Fuerza Promedio":
+    st.header("⚡ Cálculo de Impulso ($\mathbf{J}$) y Fuerza Promedio ($\mathbf{F}_{promedio}$)")
+    
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        eleccion = st.radio(
+            "¿Qué deseas calcular?",
+            ("Impulso (dada Fuerza y Tiempo)", "Fuerza Promedio (dado Impulso y Tiempo)")
+        )
+        
+    with col2:
+        if eleccion == "Impulso (dada Fuerza y Tiempo)":
+            F = st.number_input("Fuerza aplicada $F$ (N)", value=100.0, min_value=0.0, step=10.0)
+            dt = st.number_input("Intervalo de tiempo $\\Delta t$ (s)", value=0.1, min_value=0.001, max_value=10.0, step=0.01)
+            
+            impulso_calc, _ = calcular_impulso_fuerza("impulso", F, dt)
+            
+            st.markdown("### Resultados")
+            st.metric("Impulso $J$", f"{impulso_calc:.2f} N·s")
+            
+            # --- Digitalización de Datos (Tabla) ---
+            datos_j = {
+                "Parámetro": ["Fuerza (N)", "Tiempo (s)", "Impulso (N·s)"],
+                "Valor": [f"{F:.2f}", f"{dt:.2f}", f"{impulso_calc:.2f}"]
+            }
+            st.dataframe(datos_j, hide_index=True)
+            
+        else: # Cálculo de Fuerza Promedio
+            J = st.number_input("Impulso $J$ (N·s)", value=15.0, min_value=0.0, step=1.0)
+            dt = st.number_input("Intervalo de tiempo $\\Delta t$ (s)", value=0.05, min_value=0.001, max_value=10.0, step=0.005)
+            
+            fuerza_calc, _ = calcular_impulso_fuerza("fuerza_promedio", J, dt)
+
+            st.markdown("### Resultados")
+            st.metric("Fuerza Promedio $F_{promedio}$", f"{fuerza_calc:.2f} N")
+            
+            # --- Digitalización de Datos (Tabla) ---
+            datos_f = {
+                "Parámetro": ["Impulso (N·s)", "Tiempo (s)", "Fuerza Promedio (N)"],
+                "Valor": [f"{J:.2f}", f"{dt:.2f}", f"{fuerza_calc:.2f}"]
+            }
+            st.dataframe(datos_f, hide_index=True)
+
+    st.markdown("---")
+    st.markdown("El **Teorema de Impulso-Momento** establece que $J = F \\cdot \\Delta t = \\Delta P$. Una pequeña variación de tiempo ($\Delta t$) con un gran Impulso ($J$) implica una **Fuerza Promedio** muy grande. Es por eso que los airbags y las colchonetas son esenciales para alargar $\Delta t$ y reducir $F_{promedio}$.")
+
+### 2. Simulación de Colisión 1D (Unidimensional)
+
+```python
 elif simulation_type == "Simulación de Colisión 1D":
-    st.header("💥 Simulación de Colisión 1D")
-    st.markdown("""
-        Esta simulación te permite observar cómo interactúan dos objetos moviéndose en una línea recta.
-        Puedes ajustar sus **masas**, **velocidades iniciales** y el **tipo de colisión** (elástica, inelástica o parcial)
-        para ver cómo cambian sus velocidades después del impacto.
-    """)
+    st.header("💥 Colisión Unidimensional: Conservación del Momento")
 
-    col1, col2 = st.columns(2)
+    # Parámetros de entrada
+    col1, col2, col3 = st.columns(3)
     with col1:
-        st.subheader("Objeto 1")
-        m1 = st.slider("Masa del Objeto 1 (kg)", 0.1, 10.0, 1.0, 0.1, key='m1_1d')
-        v1_inicial = st.slider("Velocidad Inicial del Objeto 1 (m/s)", -10.0, 10.0, 5.0, 0.1, key='v1_1d')
-
+        m1 = st.slider("Masa $m_1$ (kg)", 0.5, 5.0, 1.0, 0.1)
+        v1_i = st.slider("Velocidad Inicial $v_{1i}$ (m/s)", -5.0, 5.0, 3.0, 0.1)
     with col2:
-        st.subheader("Objeto 2")
-        m2 = st.slider("Masa del Objeto 2 (kg)", 0.1, 10.0, 2.0, 0.1, key='m2_1d')
-        v2_inicial = st.slider("Velocidad Inicial del Objeto 2 (m/s)", -10.0, 10.0, 0.0, 0.1, key='v2_1d')
+        m2 = st.slider("Masa $m_2$ (kg)", 0.5, 5.0, 2.0, 0.1)
+        v2_i = st.slider("Velocidad Inicial $v_{2i}$ (m/s)", -5.0, 5.0, -1.0, 0.1)
+    with col3:
+        e = st.slider("Coeficiente de Restitución $e$", 0.0, 1.0, 1.0, 0.01, help="0: Perfectamente Inelástica (se pegan) | 1: Elástica (ideal)")
+    
+    # Cálculos
+    v1_f, v2_f = simular_colision_1d(m1, v1_i, m2, v2_i, e)
 
-    tipo_colision = st.selectbox(
-        "Tipo de Colisión",
-        ["Elástica ($e=1$)", "Inelástica Perfecta ($e=0$)", "Parcialmente Inelástica ($0 < e < 1$)"],
-        key='tipo_1d'
-    )
+    # Cantidades de movimiento
+    P_total_i = m1 * v1_i + m2 * v2_i
+    P_total_f = m1 * v1_f + m2 * v2_f
+    
+    # Energía Cinética
+    K_i = 0.5 * m1 * v1_i**2 + 0.5 * m2 * v2_i**2
+    K_f = 0.5 * m1 * v1_f**2 + 0.5 * m2 * v2_f**2
+    perdida_K = K_i - K_f
 
-    e = 0.0
-    if tipo_colision == "Elástica ($e=1$)":
-        e = 1.0
-    elif tipo_colision == "Inelástica Perfecta ($e=0$)":
-        e = 0.0
-    else:
-        e = st.slider("Coeficiente de Restitución ($e$)", 0.0, 1.0, 0.7, 0.01, key='e_1d')
+    st.markdown("---")
+    
+    # --- Digitalización de Datos (Métricas) ---
+    st.subheader("Resultados de la Colisión")
+    colA, colB, colC = st.columns(3)
+    colA.metric("Velocidad Final $v_{1f}$", f"{v1_f:.2f} m/s", f"{v1_f - v1_i:.2f} $\\Delta v$")
+    colB.metric("Velocidad Final $v_{2f}$", f"{v2_f:.2f} m/s", f"{v2_f - v2_i:.2f} $\\Delta v$")
+    colC.metric("Pérdida de Energía Cinética", f"{perdida_K:.2f} J")
 
-    if st.button("Simular Colisión 1D", key='btn_sim_1d'):
-        v1_final, v2_final = simular_colision_1d(m1, v1_inicial, m2, v2_inicial, e)
+    # --- Digitalización de Datos (Tabla Resumen) ---
+    st.markdown("#### Resumen de Momento y Energía")
+    datos_colision = {
+        "Parámetro": ["Momento Total Inicial $P_{total, i}$ (kg·m/s)", "Momento Total Final $P_{total, f}$ (kg·m/s)", "Energía Cinética Inicial $K_i$ (J)", "Energía Cinética Final $K_f$ (J)"],
+        "Valor": [f"{P_total_i:.2f}", f"{P_total_f:.2f}", f"{K_i:.2f}", f"{K_f:.2f}"]
+    }
+    st.dataframe(datos_colision, hide_index=True)
+    
+    st.markdown("---")
+    st.subheader("Animación de la Colisión")
+    fig_1d = plot_colision_1d_animacion(m1, v1_i, m2, v2_i, e)
+    st.plotly_chart(fig_1d, use_container_width=True)
 
-        st.subheader("Resultados de la Colisión")
-        st.write(f"**Velocidad final del Objeto 1:** `{v1_final:.2f} m/s`")
-        st.write(f"**Velocidad final del Objeto 2:** `{v2_final:.2f} m/s`")
+### 3. Simulación de Colisión 2D (Bidimensional)
 
-        # Cálculo y comparación de momento y energía
-        momento_inicial_total = m1 * v1_inicial + m2 * v2_inicial
-        momento_final_total = m1 * v1_final + m2 * v2_final
-        st.markdown(f"**Momento Total Inicial:** `{momento_inicial_total:.2f} kg·m/s`")
-        st.markdown(f"**Momento Total Final:** `{momento_final_total:.2f} kg·m/s`")
-        st.info("La **cantidad de movimiento total** se **conserva** en todas las colisiones, independientemente de la elasticidad.")
-
-        energia_cinetica_inicial = 0.5 * m1 * v1_inicial**2 + 0.5 * m2 * v2_inicial**2
-        energia_cinetica_final = 0.5 * m1 * v1_final**2 + 0.5 * m2 * v2_final**2
-        st.markdown(f"**Energía Cinética Total Inicial:** `{energia_cinetica_inicial:.2f} J`")
-        st.markdown(f"**Energía Cinética Total Final:** `{energia_cinetica_final:.2f} J`")
-
-        if tipo_colision == "Elástica ($e=1$)":
-            st.success("En colisiones elásticas, la **energía cinética total también se conserva**.")
-        else:
-            perdida_energia = energia_cinetica_inicial - energia_cinetica_final
-            st.warning(f"En colisiones inelásticas, se **pierde energía cinética**. Pérdida: `{perdida_energia:.2f} J`")
-
-        st.subheader("Visualización de la Colisión 1D")
-        st.plotly_chart(plot_colision_1d_animacion(m1, v1_inicial, m2, v2_inicial, e), use_container_width=True)
-        st.caption("Los tamaños de los círculos son proporcionales a la raíz cúbica de sus masas para una mejor visualización.")
-
+```python
 elif simulation_type == "Simulación de Colisión 2D":
-    st.header("💥 Simulación de Colisión 2D con Trayectorias")
-    st.markdown("""
-        Explora colisiones donde los objetos se mueven en un plano (dos dimensiones).
-        Puedes ajustar las **masas**, las **componentes de velocidad inicial (x, y)** y el **tipo de colisión**.
-        La visualización mostrará las trayectorias antes y después del impacto.
-        **Nota:** Para simplificar, asumimos un "ángulo de impacto" que define la línea a lo largo de la cual ocurre la interacción principal.
-    """)
+    st.header("🌐 Colisión Bidimensional: Vectores de Momento")
 
-    col1, col2 = st.columns(2)
+    # Parámetros de entrada
+    col1, col2, col3, col4 = st.columns(4)
     with col1:
-        st.subheader("Objeto 1")
-        m1_2d = st.slider("Masa del Objeto 1 (kg)", 0.1, 10.0, 1.0, key='m1_2d')
-        v1_ix = st.slider("Velocidad inicial X del Objeto 1 (m/s)", -10.0, 10.0, 3.0, key='v1x_2d')
-        v1_iy = st.slider("Velocidad inicial Y del Objeto 1 (m/s)", -10.0, 10.0, 2.0, key='v1y_2d')
-
+        st.markdown("**Objeto 1 (Azul)**")
+        m1 = st.slider("$m_1$ (kg)", 0.5, 3.0, 1.0, 0.1, key="m1_2d")
+        v1_ix = st.slider("$v_{1ix}$ (m/s)", -5.0, 5.0, 3.0, 0.1, key="v1ix_2d")
     with col2:
-        st.subheader("Objeto 2")
-        m2_2d = st.slider("Masa del Objeto 2 (kg)", 0.1, 10.0, 2.0, key='m2_2d')
-        v2_ix = st.slider("Velocidad inicial X del Objeto 2 (m/s)", -10.0, 10.0, -2.0, key='v2x_2d')
-        v2_iy = st.slider("Velocidad inicial Y del Objeto 2 (m/s)", -10.0, 10.0, 0.0, key='v2y_2d')
+        v1_iy = st.slider("$v_{1iy}$ (m/s)", -5.0, 5.0, 0.0, 0.1, key="v1iy_2d")
+        v1_i_magnitud = np.sqrt(v1_ix**2 + v1_iy**2)
+        st.metric("Magnitud $v_{1i}$", f"{v1_i_magnitud:.2f} m/s")
 
-    tipo_colision_2d = st.selectbox(
-        "Tipo de Colisión 2D",
-        ["Elástica ($e=1$)", "Inelástica Perfecta ($e=0$)", "Parcialmente Inelástica ($0 < e < 1$)"],
-        key='tipo_2d'
-    )
-    e_2d = 0.0
-    if tipo_colision_2d == "Elástica ($e=1$)":
-        e_2d = 1.0
-    elif tipo_colision_2d == "Inelástica Perfecta ($e=0$)":
-        e_2d = 0.0
-    else:
-        e_2d = st.slider("Coeficiente de Restitución ($e$)", 0.0, 1.0, 0.8, 0.01, key='e_2d')
+    with col3:
+        st.markdown("**Objeto 2 (Rojo)**")
+        m2 = st.slider("$m_2$ (kg)", 0.5, 3.0, 1.5, 0.1, key="m2_2d")
+        v2_ix = st.slider("$v_{2ix}$ (m/s)", -5.0, 5.0, -1.0, 0.1, key="v2ix_2d")
+    with col4:
+        v2_iy = st.slider("$v_{2iy}$ (m/s)", -5.0, 5.0, 1.0, 0.1, key="v2iy_2d")
+        v2_i_magnitud = np.sqrt(v2_ix**2 + v2_iy**2)
+        st.metric("Magnitud $v_{2i}$", f"{v2_i_magnitud:.2f} m/s")
 
-    angulo_impacto_deg = st.slider("Ángulo de Impacto (grados)", 0, 180, 45, key='angulo_impacto_2d')
-    st.info("El 'ángulo de impacto' simula la línea a lo largo de la cual las fuerzas de colisión actúan. Para colisiones entre esferas, sería la línea que une sus centros en el momento del contacto.")
+    st.markdown("---")
+    colA, colB = st.columns([1, 3])
+    with colA:
+        e = st.slider("Coeficiente de Restitución $e$", 0.0, 1.0, 0.8, 0.01, key="e_2d")
+        angulo_impacto = st.slider("Ángulo de la Línea de Impacto (grados)", 0, 360, 45, 5, key="angle_2d")
+    
+    # Cálculos
+    (v1fx, v1fy), (v2fx, v2fy) = simular_colision_2d(m1, v1_ix, v1_iy, m2, v2_ix, v2_iy, e, angulo_impacto)
 
-    if st.button("Simular Colisión 2D", key='btn_sim_2d'):
-        (v1fx, v1fy), (v2fx, v2fy) = simular_colision_2d(m1_2d, v1_ix, v1_iy, m2_2d, v2_ix, v2_iy, e_2d, angulo_impacto_deg)
+    v1_f_magnitud = np.sqrt(v1fx**2 + v1fy**2)
+    v2_f_magnitud = np.sqrt(v2fx**2 + v2fy**2)
+    
+    P_ix = m1 * v1_ix + m2 * v2_ix
+    P_iy = m1 * v1_iy + m2 * v2_iy
+    P_fx = m1 * v1fx + m2 * v2fx
+    P_fy = m1 * v1fy + m2 * v2fy
+    
+    # --- Digitalización de Datos (Métricas) ---
+    st.subheader("Resultados Finales (Componentes)")
+    colA, colB, colC, colD = st.columns(4)
+    colA.metric("Objeto 1 | $v_{1fx}$", f"{v1fx:.2f} m/s")
+    colB.metric("Objeto 1 | $v_{1fy}$", f"{v1fy:.2f} m/s")
+    colC.metric("Objeto 2 | $v_{2fx}$", f"{v2fx:.2f} m/s")
+    colD.metric("Objeto 2 | $v_{2fy}$", f"{v2fy:.2f} m/s")
+    
+    st.markdown("#### Conservación del Momento (debe ser constante)")
+    colE, colF, colG, colH = st.columns(4)
+    colE.metric("Momento $X$ Inicial", f"{P_ix:.2f} Ns")
+    colF.metric("Momento $X$ Final", f"{P_fx:.2f} Ns")
+    colG.metric("Momento $Y$ Inicial", f"{P_iy:.2f} Ns")
+    colH.metric("Momento $Y$ Final", f"{P_fy:.2f} Ns")
+    
+    st.markdown("---")
+    st.subheader("Visualización de Trayectorias")
+    fig_2d = plot_colision_2d_trayectorias(m1, v1_ix, v1_iy, m2, v2_ix, v2_iy, e, angulo_impacto)
+    st.plotly_chart(fig_2d, use_container_width=True)
 
-        st.subheader("Resultados de la Colisión 2D")
-        st.write(f"**Velocidad final del Objeto 1:** `({v1fx:.2f} m/s, {v1fy:.2f} m/s)`")
-        st.write(f"  Magnitud: `{np.sqrt(v1fx**2 + v1fy**2):.2f} m/s`")
-        st.write(f"**Velocidad final del Objeto 2:** `({v2fx:.2f} m/s, {v2fy:.2f} m/s)`")
-        st.write(f"  Magnitud: `{np.sqrt(v2fx**2 + v2fy**2):.2f} m/s`")
+### 4. Péndulo Balístico
 
-        # Comparación de Cantidad de Movimiento y Energía
-        p1_inicial = np.array([m1_2d * v1_ix, m1_2d * v1_iy])
-        p2_inicial = np.array([m2_2d * v2_ix, m2_2d * v2_iy])
-        p_total_inicial = p1_inicial + p2_inicial
-
-        p1_final = np.array([m1_2d * v1fx, m1_2d * v1fy])
-        p2_final = np.array([m2_2d * v2fx, m2_2d * v2fy])
-        p_total_final = p1_final + p2_final
-
-        st.markdown(f"**Momento Total Inicial:** `{p_total_inicial[0]:.2f}i + {p_total_inicial[1]:.2f}j kg·m/s` (Magnitud: `{np.linalg.norm(p_total_inicial):.2f}`)")
-        st.markdown(f"**Momento Total Final:** `{p_total_final[0]:.2f}i + {p_total_final[1]:.2f}j kg·m/s` (Magnitud: `{np.linalg.norm(p_total_final):.2f}`)")
-        st.info("La **cantidad de movimiento total se conserva** en las colisiones 2D (vectorialmente).")
-
-        ec_inicial = 0.5 * m1_2d * (v1_ix**2 + v1_iy**2) + 0.5 * m2_2d * (v2_ix**2 + v2_iy**2)
-        ec_final = 0.5 * m1_2d * (v1fx**2 + v1fy**2) + 0.5 * m2_2d * (v2fx**2 + v2fy**2)
-        st.markdown(f"**Energía Cinética Total Inicial:** `{ec_inicial:.2f} J`")
-        st.markdown(f"**Energía Cinética Total Final:** `{ec_final:.2f} J`")
-        if e_2d == 1.0:
-            st.success("En colisiones elásticas 2D, la **energía cinética total también se conserva**.")
-        else:
-            perdida_energia = energia_cinetica_inicial - energia_cinetica_final # type: ignore
-            st.warning(f"En colisiones inelásticas 2D, hay **pérdida de energía cinética**. Pérdida: `{perdida_energia:.2f} J`")
-
-        st.subheader("Visualización de Trayectorias")
-        st.plotly_chart(plot_colision_2d_trayectorias(m1_2d, v1_ix, v1_iy, m2_2d, v2_ix, v2_iy, e_2d, angulo_impacto_deg), use_container_width=True)
-        st.caption("Las líneas punteadas muestran las trayectorias antes de la colisión; las líneas sólidas, después. Los círculos indican la posición de impacto.")
-
-elif simulation_type == "Cálculo de Impulso y Fuerza Promedio":
-    st.header("🧮 Cálculo de Impulso y Fuerza Promedio")
-    st.markdown("""
-        Esta sección te permite calcular el **impulso** a partir de una fuerza promedio y un tiempo,
-        o la **fuerza promedio** a partir de un impulso y un tiempo.
-        Esto es útil para entender cómo las fuerzas actúan para cambiar la cantidad de movimiento de un objeto.
-    """)
-
-    st.subheader("Selecciona qué deseas calcular:")
-    opcion_calculo = st.radio(
-        "Opción de Cálculo",
-        ("Calcular Impulso", "Calcular Fuerza Promedio"),
-        key='calc_option'
-    )
-
-    if opcion_calculo == "Calcular Impulso":
-        fuerza = st.number_input("Fuerza promedio aplicada (N)", min_value=0.0, value=10.0, step=0.1, key='fuerza_imp')
-        tiempo = st.number_input("Tiempo de aplicación (s)", min_value=0.01, value=1.0, step=0.01, key='tiempo_imp')
-        if st.button("Calcular Impulso", key='btn_calc_imp'):
-            impulso, mensaje = calcular_impulso_fuerza("impulso", fuerza, tiempo)
-            st.success(mensaje)
-            st.info(f"Esto significa que el objeto experimentó un cambio en su cantidad de movimiento de `{impulso:.2f} kg·m/s`.")
-
-            st.markdown("---")
-            st.subheader("Visualización del Impulso")
-            fig = go.Figure(data=go.Bar(x=['Fuerza (N)', 'Tiempo (s)', 'Impulso (Ns)'],
-                                       y=[fuerza, tiempo, impulso],
-                                       marker_color=['lightblue', 'lightgreen', 'gold']))
-            fig.update_layout(title='Relación entre Fuerza, Tiempo e Impulso',
-                              yaxis_title='Valor',
-                              height=400)
-            st.plotly_chart(fig, use_container_width=True)
-
-    elif opcion_calculo == "Calcular Fuerza Promedio":
-        impulso = st.number_input("Impulso (Ns)", min_value=0.0, value=10.0, step=0.1, key='impulso_fuerza')
-        tiempo = st.number_input("Tiempo de aplicación (s)", min_value=0.01, value=1.0, step=0.01, key='tiempo_fuerza')
-        if st.button("Calcular Fuerza Promedio", key='btn_calc_fuerza'):
-            fuerza, mensaje = calcular_impulso_fuerza("fuerza_promedio", impulso, tiempo)
-            st.success(mensaje)
-            st.info(f"Para lograr un impulso de `{impulso:.2f} Ns` en `{tiempo:.2f} s`, se necesita una fuerza promedio de `{fuerza:.2f} N`.")
-
-            st.markdown("---")
-            st.subheader("Visualización de la Fuerza Promedio")
-            fig = go.Figure(data=go.Bar(x=['Impulso (Ns)', 'Tiempo (s)', 'Fuerza Promedio (N)'],
-                                       y=[impulso, tiempo, fuerza],
-                                       marker_color=['gold', 'lightgreen', 'lightblue']))
-            fig.update_layout(title='Relación entre Impulso, Tiempo y Fuerza Promedio',
-                              yaxis_title='Valor',
-                              height=400)
-            st.plotly_chart(fig, use_container_width=True)
-
+```python
 elif simulation_type == "Péndulo Balístico":
-    st.header("🎯 Simulación del Péndulo Balístico")
-    st.markdown("""
-        Observa la **animación** completa del péndulo balístico: la bala se aproxima, impacta la caja,
-        y el sistema combinado oscila hacia arriba. Esta demostración ilustra la **conservación
-        del momento lineal** durante el impacto y la **conservación de la energía mecánica** en el ascenso del péndulo.
-    """)
-
+    st.header("🎯 Péndulo Balístico: Colisión Inelástica y Conservación de Energía")
+    
     col1, col2 = st.columns(2)
     with col1:
-        masa_bala = st.slider("Masa de la Bala (kg)", 0.001, 0.1, 0.01, 0.001, key='m_bala')
-        velocidad_bala_inicial = st.slider("Velocidad Inicial de la Bala (m/s)", 10.0, 1000.0, 300.0, 1.0, key='v_bala')
+        m_bala = st.number_input("Masa de la Bala $m_b$ (kg)", value=0.01, min_value=0.001, max_value=0.1, step=0.001, format="%.3f")
+        v_bala_i = st.number_input("Velocidad Inicial de la Bala $v_{bi}$ (m/s)", value=300.0, min_value=10.0, max_value=500.0, step=10.0)
     with col2:
-        masa_caja = st.slider("Masa de la Caja (kg)", 0.1, 10.0, 1.0, 0.1, key='m_caja') # CAMBIO: masa_saco -> masa_caja
-        largo_pendulo_vis = st.slider("Largo del Péndulo (m)", 0.5, 5.0, 2.0, 0.1, key='largo_pendulo_vis')
+        m_caja = st.number_input("Masa de la Caja $m_c$ (kg)", value=1.0, min_value=0.1, max_value=10.0, step=0.1)
+        largo_pendulo = st.number_input("Largo de la Cuerda $L$ (m)", value=2.0, min_value=0.1, max_value=5.0, step=0.1)
+        
+    # Cálculos
+    v_sistema = calcular_v_sistema_pendulo(m_caja, m_bala, v_bala_i)
+    h_max = calcular_h_max_pendulo(m_caja, m_bala, v_bala_i)
 
-    st.markdown(f"**Gravedad ($g$):** `{g:.2f} m/s²`")
+    st.markdown("---")
+    st.subheader("Resultados de la Colisión y Oscilación")
+    
+    colA, colB = st.columns(2)
+    colA.metric("Velocidad del Sistema (Caja + Bala) Justo Después del Impacto $v_{f}$", f"{v_sistema:.2f} m/s")
+    colB.metric("Altura Máxima Alcanzada $h_{max}$", f"{h_max:.2f} m")
 
-    if st.button("Simular Péndulo Balístico", key='btn_pendulo'):
-        v_sistema = calcular_v_sistema_pendulo(masa_caja, masa_bala, velocidad_bala_inicial) # CAMBIO: masa_saco -> masa_caja
-        h_max = calcular_h_max_pendulo(masa_caja, masa_bala, velocidad_bala_inicial) # CAMBIO: masa_saco -> masa_caja
+    # --- Digitalización de Datos (Tabla Resumen) ---
+    st.markdown("#### Detalle de la Conservación de Momento/Energía")
+    
+    P_i = m_bala * v_bala_i
+    P_f = (m_bala + m_caja) * v_sistema
+    K_i = 0.5 * m_bala * v_bala_i**2
+    K_f_sistema = 0.5 * (m_bala + m_caja) * v_sistema**2
+    U_max = (m_bala + m_caja) * g * h_max
+    
+    datos_pendulo = {
+        "Etapa": ["Antes del Impacto", "Después del Impacto", "Punto más Alto"],
+        "Momento Lineal (Ns)": [f"{P_i:.2f}", f"{P_f:.2f}", "0 (en Y)"],
+        "Energía Cinética (J)": [f"{K_i:.2f}", f"{K_f_sistema:.2f}", "0"],
+        "Energía Potencial (J)": ["0", "0 (referencia)", f"{U_max:.2f}"]
+    }
+    st.dataframe(datos_pendulo, hide_index=True)
+    
+    st.markdown(f"**Nota:** El momento lineal se conserva estrictamente en la colisión ($P_i \\approx P_f$). La Energía Cinética se pierde significativamente ($K_i$ vs $K_f$) ya que la colisión es **perfectamente inelástica** ($e=0$).")
+    
+    st.markdown("---")
+    st.subheader("Animación de Péndulo Balístico")
+    fig_pendulo = plot_pendulo_balistico_animacion(m_bala, m_caja, v_bala_i, largo_pendulo)
+    st.plotly_chart(fig_pendulo, use_container_width=True)
 
-        st.subheader("Resultados Teóricos:")
-        st.write(f"**Velocidad del sistema (bala+caja) justo después del impacto:** `{v_sistema:.2f} m/s`") # CAMBIO: saco -> caja
-        st.write(f"**Altura máxima alcanzada por el centro de masa del sistema:** `{h_max:.2f} m`")
-        if h_max > largo_pendulo_vis:
-            st.warning(f"La altura calculada ({h_max:.2f} m) excede la longitud visual del péndulo ({largo_pendulo_vis:.2f} m). Esto es un resultado teórico; en la práctica, el péndulo podría dar una vuelta completa o el modelo sería limitado.")
+### 5. Flecha que se Incrusta en un Saco (Movimiento con Fricción)
 
-        st.subheader("Animación de la Simulación:")
-        st.plotly_chart(plot_pendulo_balistico_animacion(masa_bala, masa_caja, velocidad_bala_inicial, largo_pendulo_vis), use_container_width=True) # CAMBIO: masa_saco -> masa_caja
-        st.caption("Pulsa 'Play' en el gráfico para iniciar la animación. El tamaño de los marcadores es relativo a la masa.")
-
-        st.subheader("Explicación Física")
-        st.markdown("""
-            1.  **Colisión Inelástica (Conservación del Momento Lineal):**
-                Antes del impacto, la bala tiene una cantidad de movimiento y la caja está en reposo. Cuando la bala se incrusta, forman un solo sistema (bala+caja). La cantidad de movimiento total del sistema se conserva justo antes y después del impacto:
-                $$ m_{bala} \\cdot v_{bala, inicial} = (m_{bala} + m_{caja}) \\cdot v_{sistema} $$
-                De esta ecuación se obtiene la velocidad inicial ($v_{sistema}$) del sistema combinado.
-
-            2.  **Ascenso del Péndulo (Conservación de la Energía Mecánica):**
-                Después del impacto, el sistema (bala+caja) tiene energía cinética en su punto más bajo. A medida que oscila hacia arriba, esta energía cinética se transforma en energía potencial gravitacional. La energía mecánica total del sistema se conserva durante este ascenso:
-                $$ \\frac{1}{2} (m_{bala} + m_{caja}) v_{sistema}^2 = (m_{bala} + m_{caja}) g h_{max} $$
-                De esta ecuación se calcula la altura máxima ($h_{max}$) que alcanza el sistema.
-        """)
-
+```python
 elif simulation_type == "Flecha que se Incrusta en un Saco":
-    st.header("🏹 Simulación de Flecha que se Incrusta en un Saco")
-    st.markdown("""
-        Esta simulación modela una **colisión perfectamente inelástica** donde una flecha se incrusta
-        en un saco de arena en reposo. Después del impacto, el sistema combinado (flecha+saco)
-        se mueve una distancia hasta detenerse debido a la **fuerza de fricción**.
-    """)
+    st.header("🏹 Flecha y Saco: Colisión Inelástica y Disipación por Fricción")
 
     col1, col2 = st.columns(2)
     with col1:
-        st.subheader("Flecha")
-        m_flecha = st.slider("Masa de la Flecha (kg)", 0.005, 0.2, 0.05, 0.005, key='m_flecha_saco')
-        v_flecha_inicial = st.slider("Velocidad Inicial de la Flecha (m/s)", 10.0, 200.0, 70.0, 1.0, key='v_flecha_saco')
+        m_flecha = st.number_input("Masa de la Flecha $m_f$ (kg)", value=0.1, min_value=0.01, max_value=0.5, step=0.01)
+        v_flecha_i = st.number_input("Velocidad Inicial de la Flecha $v_{fi}$ (m/s)", value=50.0, min_value=1.0, max_value=100.0, step=1.0)
     with col2:
-        st.subheader("Saco")
-        m_saco = st.slider("Masa del Saco (kg)", 0.5, 20.0, 10.0, 0.5, key='m_saco_saco')
-        mu_k = st.slider("Coeficiente de Fricción Cinética (μk)", 0.0, 1.0, 0.4, 0.01, key='mu_k_saco')
+        m_saco = st.number_input("Masa del Saco $m_s$ (kg)", value=5.0, min_value=1.0, max_value=20.0, step=0.5)
+        mu_k = st.slider("Coeficiente de Fricción Cinética $\mu_k$", 0.0, 1.0, 0.3, 0.05, help="Coeficiente de fricción entre el saco y la superficie.")
+        
+    # Cálculos
+    v_sistema_i, F_friccion, distancia_detencion = simular_flecha_saco(m_flecha, v_flecha_i, m_saco, mu_k)
+    
+    st.markdown("---")
+    st.subheader("Resultados del Proceso Físico")
 
-    st.markdown(f"**Gravedad ($g$):** `{g:.2f} m/s²`")
+    colA, colB, colC = st.columns(3)
+    colA.metric("Velocidad Inicial del Sistema $v_{sistema}$", f"{v_sistema_i:.2f} m/s")
+    colB.metric("Fuerza de Fricción $F_k$", f"{F_friccion:.2f} N")
+    colC.metric("Distancia Recorrida hasta Detenerse $d$", f"{distancia_detencion:.2f} m")
 
-    if st.button("Simular Flecha en Saco", key='btn_flecha_saco'):
-        v_sistema_inicial, F_friccion, distancia_detencion = simular_flecha_saco(
-            m_flecha, v_flecha_inicial, m_saco, mu_k
-        )
+    # --- Digitalización de Datos (Tabla Resumen) ---
+    st.markdown("#### Análisis de Momento y Trabajo")
+    
+    m_total = m_flecha + m_saco
+    K_sistema_i = 0.5 * m_total * v_sistema_i**2
+    trabajo_friccion = F_friccion * distancia_detencion
+    
+    datos_saco = {
+        "Parámetro": ["Momento Inicial Flecha $P_{fi}$ (Ns)", "Momento Final Sistema $P_{fs}$ (Ns)", "Energía Cinética Inicial Sistema $K_{si}$ (J)", "Trabajo de la Fricción $W_f$ (J)"],
+        "Valor": [f"{m_flecha * v_flecha_i:.2f}", f"{m_total * v_sistema_i:.2f}", f"{K_sistema_i:.2f}", f"{-trabajo_friccion:.2f}"]
+    }
+    st.dataframe(datos_saco, hide_index=True)
+    
+    st.markdown("El principio de **Trabajo y Energía** indica que la pérdida de Energía Cinética ($K_{si}$) debe ser igual al trabajo realizado por la fuerza de fricción ($W_f$). Nota: $W_f$ es negativo porque actúa en contra del movimiento. La energía inicial se disipa por el rozamiento.")
 
-        st.subheader("Resultados de la Simulación")
-        st.write(f"**Velocidad del sistema (flecha+saco) justo después del impacto:** `{v_sistema_inicial:.2f} m/s`")
-        st.write(f"**Fuerza de fricción actuando sobre el saco:** `{F_friccion:.2f} N`")
-        st.write(f"**Distancia que se desplaza el saco hasta detenerse:** `{distancia_detencion:.2f} m`")
+    st.markdown("---")
+    st.subheader("Animación de la Disipación de Movimiento")
+    fig_flecha_saco = plot_flecha_saco_animacion(m_flecha, v_flecha_i, m_saco, mu_k)
+    st.plotly_chart(fig_flecha_saco, use_container_width=True)
 
-        st.subheader("Animación del Fenómeno")
-        st.plotly_chart(plot_flecha_saco_animacion(m_flecha, v_flecha_inicial, m_saco, mu_k), use_container_width=True)
-        st.caption("Pulsa 'Play' para ver la flecha impactando el saco y el movimiento posterior.")
+### 6. Caída por Plano Inclinado + Impacto
 
-        st.subheader("Explicación Física")
-        st.markdown("""
-            1.  **Colisión (Momento Lineal):** La colisión entre la flecha y el saco es perfectamente inelástica (se pegan). La cantidad de movimiento se conserva:
-                $$ m_{flecha} v_{flecha, inicial} = (m_{flecha} + m_{saco}) v_{sistema, inicial} $$
-                Esto nos da la velocidad del sistema combinado justo después del impacto.
-
-            2.  **Movimiento con Fricción (Leyes de Newton y Cinemática):** Una vez que la flecha se incrusta, el sistema flecha-saco se mueve con una velocidad inicial ($v_{sistema, inicial}$). La única fuerza horizontal que actúa para detenerlo es la fuerza de fricción cinética:
-                $$ F_{friccion} = \\mu_k N = \\mu_k (m_{flecha} + m_{saco}) g $$
-                Esta fuerza causa una aceleración negativa ($a = -F_{friccion} / m_{total}$). Usando las ecuaciones de cinemática ($v_f^2 = v_i^2 + 2ad$), podemos encontrar la distancia ($d$) que se desplaza hasta que $v_f = 0$.
-        """)
+```python
 elif simulation_type == "Caída por Plano Inclinado + Impacto":
-    st.header("⛰️ Simulación de Caída por Plano Inclinado + Impacto")
-    st.markdown("""
-        Esta simulación analiza un objeto que se desliza por un plano inclinado y luego
-        **impacta el suelo**, rebotando. Puedes ajustar las propiedades del plano
-        y el **coeficiente de restitución** del impacto para ver cómo afectan la trayectoria.
-    """)
+    st.header("🎢 Caída con Impacto: Conservación de Momento y Coeficiente de Restitución")
 
     col1, col2 = st.columns(2)
     with col1:
-        st.subheader("Objeto")
-        m_obj = st.slider("Masa del Objeto (kg)", 0.1, 5.0, 1.0, 0.1, key='m_obj_plano')
-        altura_inicial = st.slider("Altura inicial del objeto (m)", 0.5, 10.0, 5.0, 0.1, key='h_plano')
-        angulo_plano_deg = st.slider("Ángulo del Plano Inclinado (grados)", 10, 80, 45, key='angulo_plano')
+        m_obj = st.number_input("Masa del Objeto $m$ (kg)", value=1.0, min_value=0.1, max_value=5.0, step=0.1)
+        altura_i = st.number_input("Altura Inicial $h$ (m)", value=5.0, min_value=1.0, max_value=20.0, step=0.5)
+        angulo_plano = st.slider("Ángulo del Plano Inclinado $\\theta$ (grados)", 10, 80, 45, 1)
     with col2:
-        st.subheader("Condiciones")
-        mu_k_plano = st.slider("Coeficiente de Fricción Cinética en el Plano", 0.0, 0.5, 0.1, 0.01, key='mu_k_plano')
-        e_impacto = st.slider("Coeficiente de Restitución (Impacto con el Suelo)", 0.0, 1.0, 0.7, 0.01, key='e_impacto_plano')
+        mu_k_plano = st.slider("Coef. Fricción en el Plano $\mu_k$", 0.0, 1.0, 0.2, 0.05)
+        e_impacto = st.slider("Coeficiente de Restitución del Impacto $e$", 0.0, 1.0, 0.7, 0.05)
+        
+    # Cálculos
+    (a_plano, v_final_plano, vx_impacto, vy_impacto,
+     vy_rebote, altura_max_rebote, distancia_horizontal_rebote) = simular_caida_plano_impacto(
+         m_obj, altura_i, angulo_plano, mu_k_plano, e_impacto
+     )
 
-    st.markdown(f"**Gravedad ($g$):** `{g:.2f} m/s²`")
+    st.markdown("---")
+    st.subheader("Resultados del Proceso (Plano y Rebote)")
+    
+    colA, colB, colC = st.columns(3)
+    colA.metric("Aceleración en el Plano $a$", f"{a_plano:.2f} m/s$^2$")
+    colB.metric("Velocidad al Final del Plano $v_{final}$", f"{v_final_plano:.2f} m/s")
+    colC.metric("Velocidad Vertical de Rebote $|v_{y,rebote}|$", f"{vy_rebote:.2f} m/s")
 
-    if st.button("Simular Caída e Impacto", key='btn_plano'):
-        a_plano, v_final_plano, vx_impacto, vy_impacto, \
-        vy_rebote, altura_max_rebote, distancia_horizontal_rebote = simular_caida_plano_impacto(
-            m_obj, altura_inicial, angulo_plano_deg, mu_k_plano, e_impacto
-        )
+    colD, colE = st.columns(2)
+    colD.metric("Altura Máxima del Rebote $h_{max}$", f"{altura_max_rebote:.2f} m")
+    colE.metric("Distancia Horizontal de Rebote $\\Delta x$", f"{distancia_horizontal_rebote:.2f} m")
 
-        st.subheader("Resultados de la Simulación")
-        if a_plano <= 0:
-            st.error("El objeto no se deslizará por el plano debido a la alta fricción. Reduzca el coeficiente de fricción o aumente el ángulo.")
-        else:
-            st.write(f"**Aceleración a lo largo del plano:** `{a_plano:.2f} m/s²`")
-            st.write(f"**Velocidad del objeto al final del plano (antes del impacto):** `{v_final_plano:.2f} m/s`")
-            st.write(f"**Componentes de velocidad justo antes del impacto:** `vx={vx_impacto:.2f} m/s, vy={vy_impacto:.2f} m/s`")
-            st.write(f"**Velocidad vertical de rebote:** `{vy_rebote:.2f} m/s`")
-            st.write(f"**Altura máxima alcanzada después del rebote:** `{altura_max_rebote:.2f} m`")
-            st.write(f"**Distancia horizontal recorrida durante el rebote:** `{distancia_horizontal_rebote:.2f} m`")
+    # --- Digitalización de Datos (Tabla Resumen) ---
+    st.markdown("#### Análisis de Cantidad de Movimiento e Impulso en el Impacto")
+    
+    P_y_i = m_obj * vy_impacto # Momento Vertical antes del impacto
+    P_y_f = m_obj * vy_rebote # Momento Vertical después del impacto
+    J_y = P_y_f - P_y_i # Impulso Vertical en el impacto
 
-            st.subheader("Animación del Fenómeno")
-            st.plotly_chart(plot_caida_plano_impacto_animacion(m_obj, altura_inicial, angulo_plano_deg, mu_k_plano, e_impacto), use_container_width=True)
-            st.caption("Pulsa 'Play' para ver el objeto caer y rebotar. La línea punteada muestra la trayectoria completa.")
+    datos_impacto = {
+        "Parámetro de Impacto (Vertical)": ["Momento Inicial $P_y^i$ (Ns)", "Momento Final $P_y^f$ (Ns)", "Cambio de Momento $\\Delta P_y$ (Ns)", "Impulso Total $J_y$ (Ns)"],
+        "Valor": [f"{P_y_i:.2f}", f"{P_y_f:.2f}", f"{P_y_f - P_y_i:.2f}", f"{J_y:.2f}"]
+    }
+    st.dataframe(datos_impacto, hide_index=True)
 
-            st.subheader("Explicación Física")
-            st.markdown("""
-                1.  **Movimiento en el Plano Inclinado:** El objeto acelera hacia abajo por el plano debido a la componente de la gravedad paralela al plano, oponiéndose a la fuerza de fricción.
-                    * Fuerza neta a lo largo del plano: $F_{neta} = m g \\sin(\\theta) - \\mu_k m g \\cos(\\theta)$
-                    * Aceleración: $a = g (\\sin(\\theta) - \\mu_k \\cos(\\theta))$
-                    Luego, usamos $v^2 = u^2 + 2as$ para encontrar la velocidad al final del plano.
+    st.markdown("El **impulso vertical** ($J_y$) representa la fuerza promedio ejercida por el suelo durante el corto tiempo de contacto para cambiar la dirección de la velocidad vertical del objeto.")
 
-                2.  **Impacto con el Suelo:** La colisión con el suelo afecta principalmente la componente vertical de la velocidad. El coeficiente de restitución ($e$) determina qué tan "elástico" es el rebote:
-                    $$ v_{y,rebote} = -e \\cdot v_{y,impacto} $$
-                    La componente horizontal de la velocidad generalmente se conserva en un impacto con una superficie horizontal (asumiendo fricción insignificante durante el impacto).
-
-                3.  **Movimiento Parabólico Post-Impacto:** Después del rebote, el objeto sigue una trayectoria parabólica, alcanzando una altura máxima antes de volver a caer. Se analiza como un problema de tiro parabólico.
-            """)
-
-
+    st.markdown("---")
+    st.subheader("Animación: Caída, Impacto y Rebote")
+    fig_caida_impacto = plot_caida_plano_impacto_animacion(m_obj, altura_i, angulo_plano, mu_k_plano, e_impacto)
+    st.plotly_chart(fig_caida_impacto, use_container_width=True)
 st.markdown("---")
 st.markdown("Desarrollado por Grupo E  para  Física 2.")
